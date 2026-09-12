@@ -71,8 +71,8 @@ Steam → Path of Exile 2 → Властивості → Встановлені 
 - **[poe2-polish-patch](https://github.com/rocky6777/poe2-polish-patch)** (rocky6777, MIT) — основа інструментів запису перекладу.
 - **[LibGGPK3](https://github.com/aianlinb/LibGGPK3)** (aianlinb) — робота з бандлами гри.
 - **[pathofexile-dat](https://github.com/SnosMe/poe-dat-viewer)** (SnosMe, MIT) і **dat-schema** (poe-tool-dev) — читання даних гри.
-- **«Відеоігрова та коловідеоігрова термінологія»** — UnlocTeam, SBT Localization та ін. (CC BY-NC) — термінологія.
-- **«Українські вигуки і звуконаслідувальні слова»** — спільнота Ukrainian Translations у Steam.
+- **[«Відеоігрова та коловідеоігрова термінологія»](https://docs.google.com/spreadsheets/d/1p0H6dFzah3INkemHXGju_tjvbXzpYnbOyNzJLzCWGrQ)** — UnlocTeam, SBT Localization та ін. (CC BY-NC) — термінологія.
+- **[«Українські вигуки і звуконаслідувальні слова»](https://steamcommunity.com/groups/UkrainianTranslation/discussions/0/2264691750499622777/)** — спільнота Ukrainian Translations у Steam.
 
 Path of Exile є торговельною маркою Grinding Gear Games. Усі оригінальні тексти гри належать GGG.
 
