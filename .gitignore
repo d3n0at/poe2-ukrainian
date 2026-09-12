@@ -16,3 +16,5 @@ oo2core*.dll
 *.csd
 
 *.zip
+
+dist/

@@ -4,7 +4,7 @@
 import * as path from 'path';
 import { pathToFileURL } from 'url';
 
-const DAT = path.join(import.meta.dirname, '..', 'node_modules', 'pathofexile-dat', 'dist', 'dat');
+const DAT = path.join(import.meta.dirname, '..', '..', 'node_modules', 'pathofexile-dat', 'dist', 'dat');
 const imp = (f) => import(pathToFileURL(path.join(DAT, f)).href);
 
 const [datFile, reader, header] = await Promise.all([

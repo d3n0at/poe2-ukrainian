@@ -5,7 +5,7 @@ import * as path from 'path';
 import { pathToFileURL } from 'url';
 
 const LOADERS = path.join(
-  import.meta.dirname, '..', 'node_modules', 'pathofexile-dat', 'dist', 'cli', 'bundle-loaders.js',
+  import.meta.dirname, '..', '..', 'node_modules', 'pathofexile-dat', 'dist', 'cli', 'bundle-loaders.js',
 );
 const loaders = await import(pathToFileURL(LOADERS).href);
 
@@ -17,7 +17,7 @@ export async function makeLoader(steamPath) {
 // index hashes it verbatim, unlike file lookups which normalise case). Used to
 // auto-discover every Data/StatDescriptions/*.csd instead of hardcoding a list
 // that silently goes stale when GGG adds content (atlas, expedition, sanctum, …).
-const DIST = path.join(import.meta.dirname, '..', 'node_modules', 'pathofexile-dat', 'dist');
+const DIST = path.join(import.meta.dirname, '..', '..', 'node_modules', 'pathofexile-dat', 'dist');
 const distUrl = (p) => pathToFileURL(path.join(DIST, p)).href;
 export async function listDirFiles(steamPath, dirPath, ext) {
   const { decompressSliceInBundle, decompressedBundleSize } = await import(distUrl('bundles/bundle.js'));

@@ -31,7 +31,7 @@ async function main() {
   const gzippedCache = await fs.readFile(CACHE_FILE);
   const cacheStr = zlib.gunzipSync(gzippedCache).toString('utf-8');
   const cache = JSON.parse(cacheStr);
-  
+
   let appliedHashes = {};
   try {
     appliedHashes = JSON.parse(await fs.readFile(HASHES_FILE, 'utf-8'));
@@ -42,38 +42,38 @@ async function main() {
   const schema = await loadSchema();
   const loader = await makeLoader(STEAM);
   const seen = new Set();
-  
+
   let filesChanged = 0;
   let stringsChanged = 0;
 
   async function processFile(filePath, isCsd, processFn) {
     const rawBuf = await loader.tryGetFileContents(filePath);
     if (!rawBuf) return;
-    
+
     let buf = Buffer.from(rawBuf);
     const currentHash = sha256(buf);
-    
+
     const pristinePath = path.join(PRISTINE_DIR, filePath);
-    
+
     if (appliedHashes[filePath] === currentHash) {
       try {
         buf = await fs.readFile(pristinePath);
       } catch (e) {
-        console.error(Missing pristine backup for  + filePath +  but live hash matches applied version. Skipping.);
+        console.error(`Missing pristine backup for ${filePath} but live hash matches applied version. Skipping.`);
         return;
       }
     } else {
       await ensureDir(pristinePath);
       await fs.writeFile(pristinePath, buf);
     }
-    
+
     const result = processFn(buf, filePath);
     if (!result || result.stats.changed === 0) return;
-    
+
     const stagingPath = path.join(STAGING_DIR, filePath);
     await ensureDir(stagingPath);
     await fs.writeFile(stagingPath, result.bytes);
-    
+
     try {
         if (!isCsd) {
             readScalarStrings(result.bytes, path.parse(filePath).name, schema, ValidFor.PoE2);
@@ -81,21 +81,21 @@ async function main() {
             [...collectCsdStrings(result.bytes)];
         }
     } catch (e) {
-        throw new Error(Verification failed for  + filePath +  after patching:  + e.message);
+        throw new Error(`Verification failed for ${filePath} after patching: ${e.message}`);
     }
-    
+
     appliedHashes[filePath] = sha256(result.bytes);
     filesChanged++;
     stringsChanged += result.stats.changed;
-    console.log(Patched  + filePath +  (changed  + result.stats.changed +  strings));
+    console.log(`Patched ${filePath} (changed ${result.stats.changed} strings)`);
   }
 
   for (const t of schema.tables) {
     if (!(t.validFor & ValidFor.PoE2) || seen.has(t.name)) continue;
     if (!t.columns.some((c) => c.type === 'string')) continue;
     seen.add(t.name);
-    
-    await processFile(POE2_LANG_PATH.English + / + t.name + .datc64, false, (buf) => {
+
+    await processFile(`${POE2_LANG_PATH.English}/${t.name}.datc64`, false, (buf) => {
         try {
             return patchTable(buf, t.name, schema, ValidFor.PoE2, (src, ctx) => {
                 return shouldTranslate(ctx.column, src, ctx.table) ? (cache[src] ?? null) : null;
@@ -107,15 +107,15 @@ async function main() {
   }
 
   for (const file of await listDirFiles(STEAM, 'Data/StatDescriptions', '.csd')) {
-    await processFile(Data/StatDescriptions/ + file, true, (buf) => {
+    await processFile(`Data/StatDescriptions/${file}`, true, (buf) => {
         return patchCsd(buf, s => cache[s] ?? null);
     });
   }
 
   await ensureDir(HASHES_FILE);
   await fs.writeFile(HASHES_FILE, JSON.stringify(appliedHashes, null, 2));
-  
-  console.log(\nDone. Modified  + filesChanged +  files with  + stringsChanged +  translated strings.);
+
+  console.log(`\nDone. Modified ${filesChanged} files with ${stringsChanged} translated strings.`);
 }
 
 main().catch(e => {
