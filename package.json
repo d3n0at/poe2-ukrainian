@@ -1,0 +1,1 @@
+{ "name": "poe2-ukrainian", "version": "1.0.0", "type": "module", "dependencies": { "pathofexile-dat": "^15.1.0" } }

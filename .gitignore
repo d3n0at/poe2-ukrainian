@@ -1,0 +1,18 @@
+# secrets — NEVER commit
+.env
+.env.*
+
+# local build and install artefacts
+node_modules/
+out/
+bin/
+obj/
+*.tmp
+*.lock
+
+# proprietary / game files
+oo2core*.dll
+*.datc64
+*.csd
+
+*.zip
