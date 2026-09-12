@@ -35,3 +35,26 @@ export async function listDirFiles(steamPath, dirPath, ext) {
   if (ext) names = names.filter((f) => f.toLowerCase().endsWith(ext.toLowerCase()));
   return names.sort();
 }
+
+// Like listDirFiles, but walks subfolders too and returns full in-game paths: PoE2 keeps per-skill stat
+// descriptions in Data/StatDescriptions/specific_skill_stat_descriptions/<skill>/, which listDirFiles misses.
+export async function listDirFilesRecursive(steamPath, dirPath, ext) {
+  const { decompressSliceInBundle, decompressedBundleSize } = await import(distUrl('bundles/bundle.js'));
+  const { readIndexBundle } = await import(distUrl('bundles/index-bundle.js'));
+  const { getDirContent } = await import(distUrl('bundles/index-paths.js'));
+  const bl = new loaders.SteamBundleLoader(steamPath);
+  const indexBin = await bl.fetchFile('_.index.bin');
+  const indexBundle = new Uint8Array(decompressedBundleSize(indexBin));
+  decompressSliceInBundle(indexBin, 0, indexBundle);
+  const idx = readIndexBundle(indexBundle);
+  const pathReps = new Uint8Array(decompressedBundleSize(idx.pathRepsBundle));
+  decompressSliceInBundle(idx.pathRepsBundle, 0, pathReps);
+  const out = [];
+  const walk = (dir) => {
+    const { files, dirs } = getDirContent(dir, pathReps, idx.dirsInfo);
+    out.push(...files);
+    for (const sub of dirs ?? []) walk(sub);
+  };
+  walk(dirPath.toLowerCase());
+  return (ext ? out.filter((f) => f.toLowerCase().endsWith(ext.toLowerCase())) : out).sort();
+}

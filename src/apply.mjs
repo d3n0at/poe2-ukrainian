@@ -106,8 +106,11 @@ async function main() {
     });
   }
 
-  for (const file of await listDirFiles(STEAM, 'Data/StatDescriptions', '.csd')) {
-    await processFile(`Data/StatDescriptions/${file}`, true, (buf) => {
+  // Recursive: per-skill descriptions live in Data/StatDescriptions/specific_skill_stat_descriptions/<skill>/
+  const { listDirFilesRecursive } = await import('./vendor/loader.mjs');
+  for (const file of await listDirFilesRecursive(STEAM, 'Data/StatDescriptions', '.csd')) {
+    // canonical "Data/StatDescriptions/..." spelling: applied_hashes.json and out/pristine already use it
+    await processFile(`Data/StatDescriptions/${file.slice('data/statdescriptions/'.length)}`, true, (buf) => {
         return patchCsd(buf, s => cache[s] ?? null);
     });
   }
