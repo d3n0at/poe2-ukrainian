@@ -4,9 +4,16 @@ $ErrorActionPreference = 'Stop'
 $root = $PSScriptRoot
 if (-not $root -or -not (Test-Path (Join-Path $root 'src\apply.mjs'))) { $root = (Get-Location).Path }
 Set-Location $root
+# Launchers (LBK) read the output through pipes as UTF-8
+[Console]::OutputEncoding = New-Object System.Text.UTF8Encoding $false
 
 function Say($text, $color = 'Gray') { Write-Host $text -ForegroundColor $color }
-function Fail($text) { Say "`nПОМИЛКА: $text" 'Red'; exit 1 }
+function Fail($text) {
+    Say "`nПОМИЛКА: $text" 'Red'
+    # LBK Launcher shows stderr to the player when the installer exits with an error
+    if ([Console]::IsErrorRedirected) { [Console]::Error.WriteLine($text) }
+    exit 1
+}
 
 function Get-SteamLibraries {
     $libs = @()
@@ -25,6 +32,9 @@ function Get-SteamLibraries {
 
 function Find-Poe2 {
     if ($env:POE2_DIR -and (Test-Path (Join-Path $env:POE2_DIR 'Bundles2\_.index.bin'))) { return $env:POE2_DIR }
+    # Installed into a subfolder of the game itself (LBK Launcher unpacks there)
+    $parent = Split-Path $root -Parent
+    if ($parent -and (Test-Path (Join-Path $parent 'Bundles2\_.index.bin'))) { return $parent }
     foreach ($lib in Get-SteamLibraries) {
         $p = Join-Path $lib 'steamapps\common\Path of Exile 2'
         if (Test-Path (Join-Path $p 'Bundles2\_.index.bin')) { return $p }
