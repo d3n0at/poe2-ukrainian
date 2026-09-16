@@ -116,6 +116,16 @@ Say 'Записую переклад у гру...'
 & $inject (Join-Path $game 'Bundles2\_.index.bin') (Join-Path $root 'out\staging')
 if ($LASTEXITCODE) { Fail 'Запис у гру не вдався. Відкотити можна через Steam: Перевірити цілісність файлів гри.' }
 
-Say "`nГотово! Запустіть гру і в налаштуваннях оберіть мову English." 'Green'
+# 7. The translation replaces the English texts: switch the game language to English if another one is chosen
+$config = Join-Path ([Environment]::GetFolderPath('MyDocuments')) 'My Games\Path of Exile 2\poe2_production_Config.ini'
+if (Test-Path $config) {
+    $text = [IO.File]::ReadAllText($config)
+    if ($text -match '(?m)^language=(?!en\s*$)\S+') {
+        [IO.File]::WriteAllText($config, ($text -replace '(?m)^language=\S+', 'language=en'), (New-Object System.Text.UTF8Encoding $true))
+        Say 'Мову гри перемкнено на English (переклад записано поверх англійської).'
+    }
+}
+
+Say "`nГотово! Запустіть гру (мова в налаштуваннях — English)." 'Green'
 Say 'Після кожного оновлення гри запускайте INSTALL.bat знову.'
 Say 'Видалити переклад: Steam -> Path of Exile 2 -> Властивості -> Встановлені файли -> Перевірити цілісність файлів гри.'
