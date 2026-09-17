@@ -18,3 +18,5 @@ oo2core*.dll
 *.zip
 
 dist/
+
+install.log
