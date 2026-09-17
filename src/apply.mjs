@@ -42,9 +42,12 @@ async function main() {
   const schema = await loadSchema();
   const loader = await makeLoader(STEAM);
   const seen = new Set();
+  // ApplyPolish writes every file found here: leftovers from an earlier run would go back into the game
+  await fs.rm(STAGING_DIR, { recursive: true, force: true });
 
   let filesChanged = 0;
   let stringsChanged = 0;
+  let filesRestored = 0;
 
   async function processFile(filePath, isCsd, processFn) {
     const rawBuf = await loader.tryGetFileContents(filePath);
@@ -54,8 +57,9 @@ async function main() {
     const currentHash = sha256(buf);
 
     const pristinePath = path.join(PRISTINE_DIR, filePath);
+    const wasApplied = appliedHashes[filePath] === currentHash;
 
-    if (appliedHashes[filePath] === currentHash) {
+    if (wasApplied) {
       try {
         buf = await fs.readFile(pristinePath);
       } catch (e) {
@@ -68,9 +72,18 @@ async function main() {
     }
 
     const result = processFn(buf, filePath);
-    if (!result || result.stats.changed === 0) return;
-
     const stagingPath = path.join(STAGING_DIR, filePath);
+    if (!result || result.stats.changed === 0) {
+      if (wasApplied && sha256(buf) !== currentHash) {
+        // translated by an earlier version, nothing to translate now (e.g. engine ids back to English): restore the original
+        await ensureDir(stagingPath);
+        await fs.writeFile(stagingPath, buf);
+        appliedHashes[filePath] = sha256(buf);
+        filesRestored++;
+      }
+      return;
+    }
+
     await ensureDir(stagingPath);
     await fs.writeFile(stagingPath, result.bytes);
 
@@ -118,7 +131,7 @@ async function main() {
   await ensureDir(HASHES_FILE);
   await fs.writeFile(HASHES_FILE, JSON.stringify(appliedHashes, null, 2));
 
-  console.log(`\nDone. Modified ${filesChanged} files with ${stringsChanged} translated strings.`);
+  console.log(`\nDone. Modified ${filesChanged} files with ${stringsChanged} translated strings, restored ${filesRestored} originals.`);
 }
 
 main().catch(e => {
