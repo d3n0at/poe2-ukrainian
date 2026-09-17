@@ -19,6 +19,19 @@ const SKIP_TABLE_COLUMNS = new Set([
   'ShapeShiftTransformData.Pose', 'ShapeShiftForms.Name',
   // trade whisper templates: trade sites and tools parse these messages in English
   'PlayerTradeWhisperFormats.Whisper',
+  // engine keys: columns GGG left in English in official Russian+German data (key_columns_scan.mjs, 17.09.2026)
+  'ActiveSkills.WebsiteDescription', 'ActiveSkills.GrantedEffect', 'AlternateTreeVersions.ConquerorType',
+  'AtlasMemoryLine.League', 'AtlasMemoryLine.League2', 'BreachElement.Element', 'BuffDefinitions.Implementation',
+  'BYOCrafting.ActionRuthless', 'CharacterPanelDescriptionModes.', 'Characters.Attr',
+  'CharacterStartStates.Description', 'ChatIcons.Icon', 'CraftingItemClassCategories.',
+  'DamageCalculationTypes.Text', 'ExpandingPulse.StringId', 'Expedition2RunesWeights.TableComments',
+  'ExpeditionDeals.Arguments', 'Flasks.Name', 'GamepadType.Console', 'GemEffects.SupportName',
+  'HarvestCraftOptions.Parameters', 'HeistNPCs.Name', 'HideoutRarity.Text', 'ItemNoteCode.Code',
+  'ItemVisualHeldBodyModel.WitchBone', 'LeagueInfo.PanelId', 'MapCompletionAchievements.', 'MeleeTrails.EPKFile1',
+  'MicrotransactionRarityDisplay.Rarity', 'MiniQuestStates.', 'ModType.Name', 'MouseCursorSizeSettings.Size',
+  'Music.BankFile', 'NPCPortraits.Name', 'NPCTalkMobileGroup.Text', 'PassiveKeystoneList.DisplayText',
+  'PassiveTreeExpansionJewelSizes.Name', 'StashType.Id2', 'StatDescriptionFunctions.TranslationId',
+  'TalkingPetAudioEvents.Event', 'TryTheNewLeagueVersions.League', 'UniqueMagesLegacy.Name',
 ]);
 
 // Columns we intentionally keep in the ENGLISH SOURCE for a DISPLAY reason (not a
