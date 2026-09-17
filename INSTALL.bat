@@ -1,8 +1,12 @@
-@echo off
+﻿@echo off
 rem Встановлення українського перекладу Path of Exile 2.
 chcp 65001 >nul
 if /i "%~1"=="/uninstall" goto uninstall
-powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0install.ps1"
+
+set "NODE_EXE=%~dp0node\node.exe"
+if not exist "%NODE_EXE%" set "NODE_EXE=node"
+
+"%NODE_EXE%" "%~dp0src\install.mjs"
 set "RC=%ERRORLEVEL%"
 echo.
 rem Launchers run this without a console input: pause returns at once there
@@ -14,6 +18,6 @@ rem LBK Launcher "Uninstall": the translation lives inside the game bundles, Ste
 start "" "steam://validate/2694490"
 rem Remove the installer folder only when it sits inside the game folder (how LBK unpacks it)
 if not exist "%~dp0..\Bundles2\_.index.bin" exit /b 0
-if not exist "%~dp0install.ps1" exit /b 0
+if not exist "%~dp0src\install.mjs" exit /b 0
 cd /d "%~dp0.."
 (goto) 2>nul & rd /s /q "%~dp0"
