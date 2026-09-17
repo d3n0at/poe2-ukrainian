@@ -698,5 +698,8 @@
   "PH": "PH",
   "TW": "TW",
   "TH": "TH",
-  "Middle-Click": "Середнє клацання"
+  "Middle-Click": "Середнє клацання",
+  "Respawn at Checkpoint": "Відродитися на точці",
+  "Revive at Checkpoint": "Відродитися на точці",
+  "Resurrect at Checkpoint": "Воскресити на точці"
 }

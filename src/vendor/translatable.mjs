@@ -15,6 +15,10 @@ const SKIP_COLUMNS = new Set(['Id']);
 // NPCPortraits.Name) which we still want translated.
 const SKIP_TABLE_COLUMNS = new Set([
   'Characters.Name', 'Characters.BaseClass',
+  // Druid shapeshift: pose and form names are matched by the engine; translated -> T-pose, bear form crashes (17.09.2026)
+  'ShapeShiftTransformData.Pose', 'ShapeShiftForms.Name',
+  // trade whisper templates: trade sites and tools parse these messages in English
+  'PlayerTradeWhisperFormats.Whisper',
 ]);
 
 // Columns we intentionally keep in the ENGLISH SOURCE for a DISPLAY reason (not a
