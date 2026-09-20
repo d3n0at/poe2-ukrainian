@@ -769,5 +769,16 @@
   "We learn all the time. With every tide and every moon, yes? <continue>I would invite you to join us. To eat with us. To learn your story. <continue>To see beyond your eyes, yes? Talk and... share. But it is not up to me.": "Ми вчимося весь час. З кожним припливом і кожним місяцем, чи не так? <continue>Я б запросила тебе приєднатися до нас. Поїсти з нами. Дізнатися твою історію. <continue>Побачити більше, ніж бачать твої очі, так? Поговорити й... поділитися. Але це вирішувати не мені.",
   "Yes! But for how long, I can't be certain. <continue>Now... please. Stop Tavakai. He is lost!": "Так! Але як довго, я не впевнена. <continue>Тепер... будь ласка. Зупини Тавакая. Він втратив себе!",
   "I will, yes. Go. Save our people.": "Зроблю, так. Йди. Збережи наш народ.",
-  "Why do you speak of Kitava here? It was <i>{our} Tukohama that gave him his scars!": "Чому ти говориш про Кітаву тут? Це <i>{наш} Тукохама залишив йому ці шрами!"
+  "Why do you speak of Kitava here? It was <i>{our} Tukohama that gave him his scars!": "Чому ти говориш про Кітаву тут? Це <i>{наш} Тукохама залишив йому ці шрами!",
+  "Well, it seems I owe you a debt of thanks. Old Matiki here says you were quite the hero.": "Що ж, схоже, я винен тобі подяку. Старий Матікі каже, що ти був справжнім героєм.",
+  "You are our guest here. And it seems we owe you a debt of thanks... Old Matiki here says you were quite the hero.": "Ти тут наш гість. І, схоже, ми винні тобі подяку... Старий Матікі каже, що ти був справжнім героєм.",
+  "Impact Shockwave": "Ударна хвиля",
+  "Adding crafting bench to Hideout stash.": "Додавання верстака до скрині схованки.",
+  "Deeper into the lair of Lust... I shall stand strong against temptation.": "Глибше в лігво Похоті... Я вистою перед спокусою.",
+  "We have all manner of vultures through the Vastiri. I'm sure I can handle a few more.": "У Вастірі всяка стерв'ятина водиться. Впевнений, я впораюся ще з кількома.",
+  "During a cold winter, Einhar camped on a mountain. I have many furs to keep me warm. The beast was not warm. It made a coat from the shadows of dead things. A coat of shadows! Einhar wanted that coat.": "Однієї холодної зими Ейнхар розташувався табором на горі. У мене є багато хутра, щоб зігрітися. Звірові ж було холодно. Він зробив собі шубу з тіней померлих істот. Шубу з тіней! Ейнхар захотів цю шубу.",
+  "Cooldown Recovery Rate modifies the speed at which your Skill cooldown recovers.": "Швидкість відновлення перезарядження визначає швидкість, з якою перезаряджаються ваші уміння.",
+  "Brand Recall has {0}% reduced Cooldown Recovery Rate": "Відкликання клейма має на {0}% зменшену швидкість відновлення перезарядження",
+  "{0}% increased Cooldown Recovery Rate for Stance Skills": "{0}% збільшення швидкості відновлення перезарядження умінь стійок",
+  "{0}% reduced Cooldown Recovery Rate for Stance Skills": "{0}% зменшення швидкості відновлення перезарядження умінь стійок"
 }
