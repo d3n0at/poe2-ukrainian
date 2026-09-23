@@ -1,10 +1,10 @@
 {
-  "version": 12,
-  "date": "2026-09-22",
-  "strings": 109551,
+  "version": 13,
+  "date": "2026-09-23",
+  "strings": 109550,
   "game_steam_build": 25379396,
   "game_updated": "2026-09-18",
   "league": "Runes of Aldur",
-  "release": "v1.6.6",
+  "release": "v1.6.7",
   "game_version": "0.5.5c"
 }
