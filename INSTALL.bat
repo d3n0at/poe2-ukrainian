@@ -12,6 +12,12 @@ if not errorlevel 1 goto wine
 "%NODE_EXE%" "%~dp0src\install.mjs"
 set "RC=%ERRORLEVEL%"
 echo.
+if not "%RC%"=="0" (
+    echo Встановлення не вдалося. Причина - у повідомленні вище і у файлі:
+    echo   %~dp0install.log
+    echo Надішліть цей файл у Discord або на https://github.com/d3n0at/poe2-ukrainian/issues
+    echo.
+)
 rem Launchers run this without a console input: pause returns at once there
 pause
 exit /b %RC%

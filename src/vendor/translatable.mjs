@@ -47,14 +47,20 @@ const SKIP_TABLE_COLUMNS = new Set([
 //   Mods.Name            magic/rare affix word  ("Cobalt", "of the Wind")
 //   Words.Text/.Text2    rare-name fragments + UNIQUE names ("Goldrim", "Tabula Rasa")
 // Note: Words + Mods are shared with monster naming, so rare/magic MONSTER names go
-// English too. Everything else — stat lines, skills, UI, quests, dialogue, and class
-// names (ItemClasses.Name) — stays Polish. The loot-filter localizer needs no change:
-// with these columns untranslated, in-game names stay English, so English
-// `BaseType "..."` / `HasExplicitMod "..."` filter values already match as-is.
+// English too. Everything else — stat lines, skills, UI, quests, dialogue — stays
+// translated. Class names (ItemClasses.Name) were Polish upstream, but we keep them
+// English as well (see the entry below), so an English loot filter matches as-is:
+// `BaseType`, `Class` and `HasExplicitMod` values all stay in the source language.
 const KEEP_SOURCE_TABLE_COLUMNS = new Set([
   'BaseItemTypes.Name',
   'Mods.Name',
   'Words.Text', 'Words.Text2',
+  // ItemClasses.Name — ПОТРІБНО англійською для фільтрів здобичі (рішення Дена, 23.09.2026).
+  // Рушій звіряє `Class "Body Armours"` з завантаженою назвою класу, тож із перекладеним
+  // класом кожне правило Class у фільтрах FilterBlade/NeverSink переставало спрацьовувати —
+  // а це хребет будь-якого фільтра. Назви основ і афіксів і так англійські (див. вище),
+  // тож із цим рядком англійський фільтр працює без жодної конвертації.
+  'ItemClasses.Name',
 ]);
 
 // Whole tables that contain NO player-facing display text — only engine identifiers,

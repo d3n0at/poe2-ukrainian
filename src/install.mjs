@@ -8,7 +8,16 @@ import os from 'os';
 const root = path.resolve(import.meta.dirname, '..');
 process.chdir(root);
 
+// Журнал поруч зі скриптом: вікно консолі в користувача закривається або губиться,
+// а так завжди є що надіслати, коли встановлення не вдалось.
+const LOG = path.join(root, 'install.log');
+try { fs.writeFileSync(LOG, `== ${new Date().toISOString()} ==\n`); } catch {}
+function log(text) {
+    try { fs.appendFileSync(LOG, text + '\n'); } catch {}
+}
+
 function say(text, color = '0') {
+    log(text);
     const colors = {
         'Gray': '\x1b[90m',
         'Red': '\x1b[31m',
@@ -89,12 +98,16 @@ function walkDirForOodle(dir, depth) {
     return null;
 }
 
-function findOodle() {
-    const opts = [process.env.POE2_OODLE, path.join(root, 'oo2core_9_win64.dll')];
+function findOodle(gameDir) {
+    // Найпевніше місце — тека самої гри: oo2core_9_win64.dll лежить поруч з PathOfExile.exe.
+    // Раніше туди не дивились, і в кого гра стоїть не в стандартній теці Steam/Epic, пошук марно обходив диски й падав.
+    const opts = [process.env.POE2_OODLE, path.join(root, 'oo2core_9_win64.dll'),
+                  gameDir && path.join(gameDir, 'oo2core_9_win64.dll')];
     for (const o of opts) {
         if (o && fs.existsSync(o)) return o;
     }
 
+    say('  Шукаю oo2core серед ваших ігор (може зайняти хвилину)...', 'Gray');
     let gameRoots = [];
     for (const lib of getSteamLibraries()) {
         gameRoots.push(path.join(lib, 'steamapps', 'common'));
@@ -183,8 +196,7 @@ if (!fs.existsSync(injectExe)) {
 }
 const dllOut = path.join(bin, 'oo2core.dll');
 if (!fs.existsSync(dllOut)) {
-    say('  Шукаю oo2core серед ваших ігор (може зайняти хвилину)...', 'Gray');
-    const found = findOodle();
+    const found = findOodle(game);
     if (!found) {
         fail(`Не знайшов oo2core_9_win64.dll. Скопіюйте його сюди:\n  ${root}\nі запустіть INSTALL.bat знову.`);
     }

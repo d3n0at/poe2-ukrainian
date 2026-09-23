@@ -20,3 +20,4 @@ oo2core*.dll
 dist/
 
 install.log
+src/.cache/
